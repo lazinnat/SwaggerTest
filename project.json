@@ -1,0 +1,367 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "ContosoManagementClient",
+      "description": "Contoso provider",
+      "version": "2019-01-01"
+    },
+    "host": "management.azure.com",
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "security": [
+      {
+        "azure_auth": [
+          "user_impersonation"
+        ]
+      }
+    ],
+    "securityDefinitions": {
+      "azure_auth": {
+        "type": "oauth2",
+        "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+        "flow": "implicit",
+        "description": "Azure Active Directory OAuth2 Flow.",
+        "scopes": {
+          "user_impersonation": "impersonate your user account"
+        }
+      }
+    },
+    "paths": {
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.contoso/employees/{employeeName}/projects/{projectName}": {
+        "get": {
+          "description": "Returns employee's project for a given name.",
+          "operationId": "Project_Get",
+          "parameters": [
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            },
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/EmployeeNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ProjectNameParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Project details.",
+              "schema": {
+                "$ref": "#/definitions/ProjectResource"
+              }
+            }
+          },
+          "x-ms-examples": {
+            "ProjectDetailsGet": {
+              "$ref": "./examples/ProjectDetailsGet.json"
+            }
+          }
+        },
+        "put": {
+          "description": "Create or update project resource.",
+          "operationId": "Project_CreateAndUpdate",
+          "parameters": [
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            },
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/EmployeeNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ProjectNameParameter"
+            },
+            {
+              "name": "ProjectResource",
+              "description": "Project details.",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/ProjectResource"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful.",
+              "schema": {
+                "$ref": "#/definitions/ProjectResource"
+              }
+            }
+          },
+          "x-ms-examples": {
+            "ProjectResourceUpdate": {
+              "$ref": "./examples/ProjectResourceUpdate.json"
+            }
+          }
+        },
+        "patch": {
+          "description": "Update employee's project details.",
+          "operationId": "Project_Update",
+          "parameters": [
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            },
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/EmployeeNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ProjectNameParameter"
+            },
+            {
+              "name": "ProjectPatchResource",
+              "description": "Project patch details.",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/ProjectPatchResource"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful.",
+              "schema": {
+                "$ref": "#/definitions/ProjectResource"
+              }
+            }
+          },
+          "x-ms-examples": {
+            "ProjectResourceUpdate": {
+              "$ref": "./examples/ProjectResourceUpdate.json"
+            }
+          }
+        }
+      },
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.contoso/employees/{employeeName}/projects": {
+        "get": {
+          "description": "Returns list of employee's projects.",
+          "operationId": "Project_List",
+          "parameters": [
+            {
+              "$ref": "#/parameters/ResourceGroupNameParameter"
+            },
+            {
+              "$ref": "#/parameters/ApiVersionParameter"
+            },
+            {
+              "$ref": "#/parameters/SubscriptionIdParameter"
+            },
+            {
+              "$ref": "#/parameters/EmployeeNameParameter"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Project details.",
+              "schema": {
+                "$ref": "#/definitions/ProjectResourceList"
+              }
+            }
+          },
+          "deprecated": false,
+          "x-ms-pageable": {
+            "nextLinkName": "nextLink"
+          },
+          "x-ms-examples": {
+            "ProjectDetailsGet": {
+              "$ref": "./examples/ProjectResourceList.json"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Resource": {
+        "description": "An Azure resource.",
+        "properties": {
+          "id": {
+            "description": "Azure resource Id.",
+            "type": "string",
+            "readOnly": true
+          },
+          "name": {
+            "description": "Azure resource name.",
+            "type": "string",
+            "readOnly": true
+          },
+          "type": {
+            "description": "Azure resource type.",
+            "type": "string",
+            "readOnly": true
+          },
+          "location": {
+            "description": "Location of the resource.",
+            "type": "string",
+            "readOnly": false
+          },
+          "tags": {
+            "description": "resource tags.",
+            "type": "object",
+            "readOnly": false,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "x-ms-azure-resource": true
+        }
+      },
+      "ProjectResource": {
+        "type": "object",
+        "description": "Project details",
+        "allOf": [
+          {
+            "$ref": "#/definitions/Resource"
+          }
+        ],
+        "required": [ "properties" ],
+        "properties": {
+          "properties": {
+            "type": "object",
+            "required": [ "codename", "role", "group", "superpower" ],
+            "properties": {
+              "codename": {
+                "type": "string",
+                "description": "Project codename.",
+                "minLength": 1,
+                "maxLength": 10,
+                "pattern": "^[A-Za-z0-9-._]+$"
+              },
+              "role": {
+                "type": "string",
+                "description": "Role in project.",
+                "minLength": 1,
+                "maxLength": 10,
+                "pattern": "^[A-Za-z0-9-._]+$"
+              },
+              "group": {
+                "type": "string",
+                "description": "group like Finance, HR etc...",
+                "minLength": 1,
+                "maxLength": 10,
+                "pattern": "^[A-Za-z0-9-._]+$"
+              },
+              "identificationNumber": {
+                "type": "string",
+                "readOnly": true,
+                "description": "unique id assigned at the time of project creation"
+              },
+              "likesTea": {
+                "type": "string",
+                "description": "Gets or sets the deployment mode.",
+                "enum": [ "Yes" ],
+                "x-ms-enum": {
+                  "name": "likesTea",
+                  "modelAsString": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProjectPatchResource": {
+        "type": "object",
+        "description": "Project patch properties",
+        "properties": {
+          "tags": {
+            "description": "resource tags.",
+            "type": "object",
+            "readOnly": false,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "group": {
+                "type": "string",
+                "description": "group like Finance, HR etc..."
+              }
+            }
+          }
+        }
+      },
+      "ProjectResourceList": {
+        "description": "The list of projects.",
+        "type": "object",
+        "properties": {
+          "nextLink": {
+            "description": "The link used to get the next page of projects list.",
+            "type": "string"
+          },
+          "value": {
+            "description": "The list of recommendations.",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ProjectResource"
+            }
+          }
+        }
+      }
+  
+    },
+    "parameters": {
+      "SubscriptionIdParameter": {
+        "name": "subscriptionId",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "description": "The Azure subscription ID."
+      },
+      "ApiVersionParameter": {
+        "name": "api-version",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "Client Api Version."
+      },
+      "ResourceGroupNameParameter": {
+        "name": "resourceGroupName",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "description": "The name of the resource group.",
+        "x-ms-parameter-location": "method"
+      },
+      "EmployeeNameParameter": {
+        "name": "employeeName",
+        "in": "path",
+        "required": true,
+        "type": "string",
+        "description": "The name employee resource.",
+        "x-ms-parameter-location": "method"
+      },
+      "ProjectNameParameter": {
+          "name": "projectName",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "The name project resource.",
+          "x-ms-parameter-location": "method"
+      }
+    }
+  }
