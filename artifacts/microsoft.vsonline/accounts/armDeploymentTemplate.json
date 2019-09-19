@@ -1,0 +1,19 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"location": { "type": "string" },
+		"accountName" : { "type": "string" },
+		"tagsByResource": { "type": "object", "defaultValue": {} }
+	},
+	"resources": [
+		{
+			"type": "Microsoft.VSOnline/Accounts",
+			"name": "[parameters('accountName')]",
+			"apiVersion": "2019-07-01-preview",
+			"location": "[parameters('location')]",
+			"properties": {},
+			"tags": "[ if(contains(parameters('tagsByResource'), 'Microsoft.VSOnline/Accounts'), parameters('tagsByResource')['Microsoft.VSOnline/Accounts'], json('{}')) ]"
+		}
+	]
+}
